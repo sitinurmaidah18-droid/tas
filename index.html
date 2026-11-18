@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AYO PASANGKAN CIRI BENDA! - Kelas 2 SD</title>
+  <!-- Google Fonts: Fredoka untuk kesan bulat, tebal, empuk ala 3D clay anak-anak -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --sky-blue: #87CEEB;
+      --sky-light: #E0F7FA;
+      --pastel-yellow: #FFE066;
+      --pastel-green: #A8E6CF;
+      --pastel-pink: #FFAAA5;
+      --pastel-orange: #FFD3B6;
+      --clay-white: #FFFDF9;
+      --text-dark: #2D3748;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(180deg, #B2EBF2 0%, #E0F7FA 55%, #DCEDC8 100%);
+      color: var(--text-dark);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Gaya 3D Claymation Cards & Containers */
+    .clay-panel {
+      background: linear-gradient(145deg, #ffffff, #f3f7fa);
+      border-radius: 32px;
+      box-shadow:
+        10px 14px 24px rgba(45, 55, 72, 0.14),
+        inset -6px -8px 14px rgba(176, 196, 222, 0.45),
+        inset 6px 8px 14px rgba(255, 255, 255, 0.95);
+      border: 4px solid rgba(255, 255, 255, 0.85);
+    }
+
+    .clay-sky {
+      background: linear-gradient(145deg, #9be2ff, #6ec4e8);
+      border-radius: 28px;
+      box-shadow:
+        0 10px 20px rgba(66, 153, 225, 0.28),
+        inset -5px -6px 12px rgba(34, 116, 165, 0.35),
+        inset 5px 6px 12px rgba(255, 255, 255, 0.8);
+    }
+
+    .clay-yellow {
+      background: linear-gradient(145deg, #fff099, #ffd633);
+      border-radius: 28px;
+      box-shadow:
+        0 10px 20px rgba(214, 158, 46, 0.28),
+        inset -5px -6px 12px rgba(196, 138, 18, 0.35),
+        inset 5px 6px 12px rgba(255, 255, 255, 0.85);
+    }
+
+    .clay-green {
+      background: linear-gradient(145deg, #c2f5e1, #84d9b8);
+      border-radius: 28px;
+      box-shadow:
+        0 10px 20px rgba(56, 161, 105, 0.25),
+        inset -5px -6px 12px rgba(43, 138, 100, 0.32),
+        inset 5px 6px 12px rgba(255, 255, 255, 0.85);
+    }
+
+    .clay-pink {
+      background: linear-gradient(145deg, #ffc4c0, #ff8e87);
+      border-radius: 28px;
+      box-shadow:
+        0 10px 20px rgba(229, 62, 62, 0.24),
+        inset -5px -6px 12px rgba(197, 67, 60, 0.32),
+        inset 5px 6px 12px rgba(255, 255, 255, 0.85);
+    }
+
+    .clay-orange {
+      background: linear-gradient(145deg, #ffe2cc, #ffba8c);
+      border-radius: 28px;
+      box-shadow:
+        0 10px 20px rgba(221, 107, 32, 0.24),
+        inset -5px -6px 12px rgba(192, 86, 33, 0.3),
+        inset 5px 6px 12px rgba(255, 255, 255, 0.85);
+    }
+
+    /* Tombol 3D Empuk */
+    .clay-btn {
+      cursor: pointer;
+      transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s ease;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+
+    .clay-btn:hover {
+      transform: translateY(-4px) scale(1.03);
+    }
+
+    .clay-btn:active {
+      transform: translateY(3px) scale(0.97);
+    }
+
+    /* Kartu Ciri Benda yang dapat diseret (Touch & Mouse) */
+    .trait-card {
+      touch-action: none;
+      cursor: grab;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, opacity 0.2s ease;
+      z-index: 20;
+    }
+
+    .trait-card:hover {
+      transform: translateY(-5px) scale(1.04);
+    }
+
+    .trait-card.dragging {
+      cursor: grabbing;
+      z-index: 9999 !important;
+      transform: scale(1.12) rotate(-3deg);
+      box-shadow:
+        0 22px 35px rgba(45, 55, 72, 0.32),
+        inset -4px -6px 10px rgba(0, 0, 0, 0.15),
+        inset 6px 6px 12px rgba(255, 255, 255, 0.9);
+    }
+
+    .trait-card.selected-tap {
+      outline: 6px solid #FF6B6B;
+      transform: scale(1.08);
+    }
+
+    /* Zona Drop Target pada Gambar Benda */
+    .drop-zone {
+      transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+    }
+
+    .drop-zone.highlight {
+      transform: scale(1.04);
+      border-color: #38B2AC !important;
+      background: linear-gradient(145deg, #E6FFFA, #B2F5EA) !important;
+      box-shadow: 0 0 0 8px rgba(56, 178, 172, 0.25);
+    }
+
+    .drop-zone.solved {
+      background: linear-gradient(145deg, #F0FFF4, #C6F6D5) !important;
+      border-color: #48BB78 !important;
+    }
+
+    /* Animasi mengambang & memantul */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes wobbleError {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-12px) rotate(-3deg); }
+      40% { transform: translateX(12px) rotate(3deg); }
+      60% { transform: translateX(-8px) rotate(-2deg); }
+      80% { transform: translateX(8px) rotate(2deg); }
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      75% { transform: scale(1.08); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 22px rgba(239, 68, 68, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    .animate-float {
+      animation: floatSlow 3.2s ease-in-out infinite;
+    }
+
+    .animate-wobble {
+      animation: wobbleError 0.55s ease-in-out;
+    }
+
+    .animate-pop {
+      animation: popIn 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .mic-recording {
+      animation: pulseRing 1.4s infinite;
+      background: linear-gradient(145deg, #fc8181, #e53e3e) !important;
+      color: white !important;
+    }
+
+    /* Latar Awan Dekoratif 3D */
+    .bg-cloud {
+      position: fixed;
+      background: radial-gradient(circle at 35% 30%, #ffffff, #e6f4f8);
+      border-radius: 999px;
+      box-shadow: inset -6px -8px 14px rgba(160, 200, 220, 0.35), 0 8px 18px rgba(255,255,255,0.5);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Partikel Bintang & Konfeti */
+    .star-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 10000;
+      font-size: 2.2rem;
+      transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.95s ease;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- Dekorasi Awan Pastel 3D -->
+  <div class="bg-cloud w-44 h-16 top-6 left-8 opacity-80 animate-float"></div>
+  <div class="bg-cloud w-56 h-20 top-14 right-12 opacity-75 animate-float" style="animation-delay: 1.1s;"></div>
+  <div class="bg-cloud w-36 h-14 bottom-12 left-16 opacity-70 animate-float" style="animation-delay: 2s;"></div>
+
+  <!-- CONTAINER UTAMA APLIKASI -->
+  <div id="app" class="relative z-10 flex-1 flex flex-col max-w-7xl w-full mx-auto px-3 sm:px-6 py-3 sm:py-5">
+
+    <!-- ==================== 1. HALAMAN AWAL (START SCREEN) ==================== -->
+    <section id="screen-start" class="flex-1 flex flex-col items-center justify-center text-center my-auto py-4">
+      <div class="clay-panel w-full max-w-4xl p-6 sm:p-10 relative overflow-hidden">
+        <!-- Lencana Kelas 2 SD -->
+        <div class="inline-block clay-yellow px-6 py-2 text-lg sm:text-xl font-bold text-amber-900 mb-3 tracking-wide">
+          🌟 KELAS 2 SD • FASE A 🌟
+        </div>
+
+        <!-- Judul Utama Besar -->
+        <h1 class="text-4xl sm:text-6xl font-bold text-sky-700 drop-shadow-sm tracking-tight leading-tight mb-6">
+          AYO PASANGKAN<br><span class="text-orange-500">CIRI BENDA!</span>
+        </h1>
+
+        <!-- Maskot Anak Sekolah + Kotak Petunjuk Permainan -->
+        <div class="flex flex-col md:flex-row items-center justify-center gap-6 bg-sky-50/90 rounded-3xl p-5 sm:p-7 border-4 border-sky-200 shadow-inner mb-8">
+          <!-- Maskot 3D Clay Siswa SD -->
+          <div class="w-36 h-36 sm:w-44 sm:h-44 flex-shrink-0 animate-float" id="start-mascot-container"></div>
+
+          <!-- Petunjuk Permainan -->
+          <div class="text-left flex-1">
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class="bg-pink-400 text-white font-bold px-4 py-1 rounded-full text-base sm:text-lg shadow">
+                📢 Petunjuk Permainan
+              </span>
+              <button onclick="speakInstruction()" class="clay-btn clay-sky px-4 py-2 text-sky-950 font-bold text-sm sm:text-base" title="Dengarkan Petunjuk">
+                🔊 Dengarkan
+              </button>
+            </div>
+            <p class="text-xl sm:text-2xl font-semibold text-slate-700 leading-relaxed">
+              "Anak-anak, ayo amati gambar benda! Seret kartu ciri-ciri benda ke gambar yang tepat. Setelah itu, ceritakan ciri benda tersebut dengan kalimat sederhana."
+            </p>
+          </div>
+        </div>
+
+        <!-- Tombol Mulai Bermain Besar -->
+        <button onclick="startGame()" class="clay-btn clay-green px-10 sm:px-14 py-5 text-2xl sm:text-3xl font-bold text-emerald-950 tracking-wide">
+          🚀 MULAI BERMAIN
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== 2. HALAMAN PERMAINAN (GAME SCREEN) ==================== -->
+    <section id="screen-game" class="hidden flex-1 flex flex-col justify-between gap-3 sm:gap-4">
+
+      <!-- HEADER: Info Level, Panduan Mini, dan Skor -->
+      <header class="clay-panel px-4 sm:px-7 py-3 flex flex-wrap items-center justify-between gap-3">
+        <!-- Tombol Rumah / Ulang -->
+        <div class="flex items-center gap-3">
+          <button onclick="confirmGoHome()" class="clay-btn clay-orange px-4 py-2.5 text-lg font-bold text-orange-950" title="Kembali ke Awal">
+            🏠 Awal
+          </button>
+          <div>
+            <div id="level-badge" class="text-sm sm:text-base font-bold text-sky-600 uppercase tracking-wider">
+              LEVEL 1 DARI 3
+            </div>
+            <h2 id="level-title" class="text-xl sm:text-3xl font-bold text-slate-800">
+              MENGENAL WARNA
+            </h2>
+          </div>
+        </div>
+
+        <!-- Maskot Pemandu Mini & Pesan Panduan -->
+        <div class="hidden lg:flex items-center gap-3 bg-amber-50 px-4 py-2 rounded-2xl border-2 border-amber-200 max-w-md">
+          <div class="w-12 h-12 flex-shrink-0" id="header-mascot-mini"></div>
+          <p id="mascot-tip" class="text-base font-semibold text-slate-700 leading-snug">
+            Seret kartu ciri benda ke kotak gambar yang tepat ya!
+          </p>
+        </div>
+
+        <!-- Papan Skor & Suara -->
+        <div class="flex items-center gap-3">
+          <button onclick="toggleSound()" id="btn-sound" class="clay-btn clay-sky px-3.5 py-2.5 text-xl font-bold text-sky-950" title="Suara Efek">
+            🔊
+          </button>
+          <div class="clay-yellow px-5 py-2.5 flex items-center gap-2">
+            <span class="text-2xl">⭐</span>
+            <span class="text-lg sm:text-xl font-bold text-amber-950">SKOR:</span>
+            <span id="score-display" class="text-2xl sm:text-3xl font-extrabold text-orange-600">0</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- AREA UTAMA: 4 GAMBAR BENDA (DROP ZONES) -->
+      <main class="flex-1 flex flex-col justify-center">
+        <div id="objects-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+          <!-- Diisi dinamis oleh JavaScript -->
+        </div>
+      </main>
+
+      <!-- AREA BAWAH: KARTU PILIHAN CIRI BENDA (DRAGGABLES) & TOMBOL LANJUT -->
+      <footer class="clay-panel p-4 sm:p-5">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-2 mb-3">
+          <span class="text-base sm:text-xl font-bold text-slate-700">
+            👆 Sentuh dan seret kartu ciri benda ke gambar di atas:
+          </span>
+          <span id="progress-text" class="text-base sm:text-lg font-bold text-emerald-600 bg-emerald-50 px-4 py-1 rounded-full border-2 border-emerald-200">
+            Terpasang: 0 / 4
+          </span>
+        </div>
+
+        <!-- Rak Kartu Ciri Benda -->
+        <div id="cards-rack" class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 min-h-[84px] items-center">
+          <!-- Kartu ciri-ciri benda dirender di sini -->
+        </div>
+
+        <!-- Tombol Lanjut Level (Muncul aktif setelah 4 benda terpasang) -->
+        <div id="next-level-bar" class="hidden mt-4 pt-3 border-t-2 border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 animate-pop">
+          <div class="text-xl sm:text-2xl font-bold text-emerald-700 text-center sm:text-left">
+            🎉 Luar biasa! Semua benda di level ini sudah dipasangkan!
+          </div>
+          <button id="btn-next-level" onclick="nextLevel()" class="clay-btn clay-green px-9 py-4 text-2xl font-bold text-emerald-950 shadow-lg w-full sm:w-auto">
+            LANJUT ➡️
+          </button>
+        </div>
+      </footer>
+    </section>
+
+    <!-- ==================== 3. HALAMAN PENUTUP (ENDING SCREEN) ==================== -->
+    <section id="screen-end" class="hidden flex-1 flex flex-col items-center justify-center text-center my-auto py-4">
+      <div class="clay-panel w-full max-w-4xl p-6 sm:p-10 relative overflow-hidden animate-pop">
+        <div class="flex flex-col items-center">
+          <!-- Maskot Merayakan -->
+          <div class="w-32 h-32 sm:w-36 sm:h-36 mb-2 animate-float" id="end-mascot-container"></div>
+
+          <h1 class="text-4xl sm:text-6xl font-extrabold text-orange-500 drop-shadow-sm mb-2">
+            WOW! KAMU HEBAT!
+          </h1>
+          <p class="text-xl sm:text-3xl font-bold text-sky-700 mb-6">
+            "Kini aku bisa mengenal warna, ukuran, dan sifat benda."
+          </p>
+
+          <!-- Total Skor Akhir -->
+          <div class="clay-yellow px-8 py-4 mb-6 inline-flex items-center gap-3">
+            <span class="text-3xl sm:text-4xl">🏆</span>
+            <span class="text-2xl sm:text-3xl font-bold text-amber-950">SKOR AKHIR KAMU:</span>
+            <span id="final-score" class="text-3xl sm:text-5xl font-extrabold text-red-600">120</span>
+          </div>
+
+          <!-- Penghargaan Medali Digital 3D Clay -->
+          <div class="w-full bg-sky-50/90 rounded-3xl p-5 sm:p-6 border-4 border-sky-200 mb-7">
+            <h3 class="text-xl sm:text-2xl font-bold text-slate-700 mb-4">
+              🎖️ Penghargaan Medali Digital Kamu 🎖️
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="medals-container">
+              <!-- Medali Perunggu -->
+              <div id="medal-bronze" class="clay-panel p-4 flex flex-col items-center transition-all">
+                <div class="w-24 h-24 mb-2" id="svg-medal-bronze"></div>
+                <div class="text-xl font-bold text-amber-800">Bintang Perunggu</div>
+                <div class="text-sm font-semibold text-slate-500">Penjelajah Pemula</div>
+              </div>
+
+              <!-- Medali Perak -->
+              <div id="medal-silver" class="clay-panel p-4 flex flex-col items-center transition-all">
+                <div class="w-24 h-24 mb-2" id="svg-medal-silver"></div>
+                <div class="text-xl font-bold text-slate-700">Bintang Perak</div>
+                <div class="text-sm font-semibold text-slate-500">Pengamat Cerdas</div>
+              </div>
+
+              <!-- Medali Emas -->
+              <div id="medal-gold" class="clay-panel p-4 flex flex-col items-center transition-all border-4 border-yellow-400 bg-yellow-50">
+                <div class="w-24 h-24 mb-2" id="svg-medal-gold"></div>
+                <div class="text-xl font-bold text-yellow-700">Bintang Emas</div>
+                <div class="text-sm font-semibold text-amber-700">Juara Ciri Benda!</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tombol Main Lagi -->
+          <button onclick="restartGame()" class="clay-btn clay-sky px-10 py-4 text-2xl sm:text-3xl font-bold text-sky-950">
+            🔄 MAIN LAGI
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ==================== MODAL FEEDBACK & TANTANGAN BERBICARA ==================== -->
+  <div id="speaking-modal" class="hidden fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="clay-panel w-full max-w-2xl p-6 sm:p-8 text-center animate-pop relative">
+      <!-- Banner Ucapan Benar -->
+      <div class="inline-block clay-green px-6 py-2 text-xl sm:text-2xl font-extrabold text-emerald-950 mb-4 shadow">
+        🌟 Hebat! Jawabanmu benar! (+10 Poin) 🌟
+      </div>
+
+      <!-- Gambar Benda yang Baru Dijawab -->
+      <div id="modal-object-preview" class="w-32 h-32 sm:w-40 sm:h-40 mx-auto my-2 flex items-center justify-center">
+        <!-- SVG benda dimasukkan via JS -->
+      </div>
+
+      <!-- Pertanyaan Tantangan Berbicara -->
+      <h3 class="text-2xl sm:text-3xl font-extrabold text-sky-700 mt-2 mb-3">
+        🗣️ Ayo ceritakan ciri benda ini!
+      </h3>
+
+      <!-- Kotak Contoh Kalimat -->
+      <div class="bg-amber-50 border-4 border-amber-200 rounded-3xl p-4 sm:p-5 mb-5">
+        <div class="text-sm sm:text-base font-bold text-amber-700 uppercase tracking-wide mb-1">
+          Contoh Kalimat:
+        </div>
+        <p id="modal-example-sentence" class="text-2xl sm:text-3xl font-extrabold text-slate-800">
+          "Tasnya berwarna biru."
+        </p>
+        <button onclick="speakExampleSentence()" class="mt-3 clay-btn clay-yellow px-5 py-2 text-base sm:text-lg font-bold text-amber-950">
+          🔊 Dengarkan Contoh
+        </button>
+      </div>
+
+      <!-- Area Mikrofon untuk Berbicara -->
+      <div class="flex flex-col items-center gap-3 mb-5">
+        <button id="btn-mic" onclick="toggleSpeechRecognition()" class="clay-btn clay-pink px-7 py-4 text-xl sm:text-2xl font-bold text-rose-950">
+          🎤 Tekan & Ucapkan Kalimat
+        </button>
+        <p id="speech-status" class="text-base sm:text-lg font-semibold text-slate-600 min-h-[28px]">
+          Tekan tombol mikrofon lalu ucapkan kalimatnya dengan lantang!
+        </p>
+        <div id="speech-result-box" class="hidden bg-emerald-50 border-2 border-emerald-300 rounded-2xl px-5 py-2.5 text-lg sm:text-xl font-bold text-emerald-800">
+          <!-- Hasil suara murid tampil di sini -->
+        </div>
+      </div>
+
+      <!-- Tombol Selesai Bercerita -->
+      <button onclick="closeSpeakingModal()" class="clay-btn clay-sky w-full sm:w-auto px-10 py-4 text-xl sm:text-2xl font-bold text-sky-950">
+        ✅ Selesai Bercerita
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST PESAN SALAH (RAMAH) ==================== -->
+  <div id="gentle-toast" class="hidden fixed top-24 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+    <div class="clay-orange px-7 py-4 border-4 border-white shadow-2xl flex items-center gap-3 animate-pop">
+      <span class="text-3xl">🤗</span>
+      <span class="text-xl sm:text-2xl font-extrabold text-orange-950">
+        Ayo coba lagi, kamu pasti bisa!
+      </span>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL KONFIRMASI KEMBALI KE AWAL ==================== -->
+  <div id="confirm-home-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="clay-panel max-w-md w-full p-6 text-center animate-pop">
+      <div class="text-5xl mb-3">🏠</div>
+      <h3 class="text-2xl font-bold text-slate-800 mb-2">Kembali ke Halaman Awal?</h3>
+      <p class="text-lg text-slate-600 mb-6">Permainan saat ini akan diulang dari awal ya.</p>
+      <div class="flex justify-center gap-4">
+        <button onclick="closeConfirmHome()" class="clay-btn clay-sky px-6 py-3 text-lg font-bold text-sky-950">
+          Batal
+        </button>
+        <button onclick="goHomeConfirmed()" class="clay-btn clay-pink px-6 py-3 text-lg font-bold text-rose-950">
+          Ya, Kembali
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================================
+       1. KOLEKSI ILUSTRASI SVG GAYA 3D CLAYMATION (LUCU, EMPUK, CERAH)
+       ========================================================================= */
+    const SVG_ASSETS = {
+      // Maskot Anak Sekolah SD (Seragam Putih Merah 3D Clay)
+      mascot: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <radialGradient id="skinClay" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#FFE5D0"/>
+              <stop offset="70%" stop-color="#F6BD94"/>
+              <stop offset="100%" stop-color="#E09B6B"/>
+            </radialGradient>
+            <radialGradient id="hairClay" cx="35%" cy="25%" r="70%">
+              <stop offset="0%" stop-color="#5A463A"/>
+              <stop offset="100%" stop-color="#2B1E17"/>
+            </radialGradient>
+            <radialGradient id="redUniform" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#FF7B7B"/>
+              <stop offset="70%" stop-color="#E53E3E"/>
+              <stop offset="100%" stop-color="#9B2C2C"/>
+            </radialGradient>
+            <radialGradient id="whiteShirt" cx="35%" cy="25%" r="75%">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="100%" stop-color="#CBD5E0"/>
+            </radialGradient>
+          </defs>
+          <!-- Badan Seragam Putih Merah -->
+          <path d="M52 175 C52 140, 148 140, 148 175 L155 192 L45 192 Z" fill="url(#redUniform)"/>
+          <path d="M62 142 L138 142 L144 166 L56 166 Z" fill="url(#whiteShirt)"/>
+          <!-- Dasi Merah -->
+          <polygon points="100,145 92,155 100,182 108,155" fill="#C53030"/>
+          <!-- Tangan Melambai -->
+          <ellipse cx="42" cy="148" rx="14" ry="20" transform="rotate(-28 42 148)" fill="url(#skinClay)"/>
+          <ellipse cx="158" cy="155" rx="14" ry="20" transform="rotate(20 158 155)" fill="url(#skinClay)"/>
+          <!-- Kepala Empuk -->
+          <circle cx="100" cy="92" r="52" fill="url(#skinClay)"/>
+          <!-- Rambut & Topi Merah SD -->
+          <path d="M48 86 C48 42, 152 42, 152 86 C142 64, 58 64, 48 86 Z" fill="url(#hairClay)"/>
+          <path d="M52 68 C56 36, 144 36, 148 68 Z" fill="url(#redUniform)"/>
+          <ellipse cx="100" cy="68" rx="56" ry="10" fill="#C53030"/>
+          <rect x="92" y="45" width="16" height="12" rx="3" fill="#FFF"/>
+          <!-- Pipi Merona -->
+          <ellipse cx="72" cy="104" rx="10" ry="6" fill="#FF8E8E" opacity="0.65"/>
+          <ellipse cx="128" cy="104" rx="10" ry="6" fill="#FF8E8E" opacity="0.65"/>
+          <!-- Mata Ceria -->
+          <circle cx="80" cy="90" r="7" fill="#2D3748"/>
+          <circle cx="82" cy="88" r="2.5" fill="#FFF"/>
+          <circle cx="120" cy="90" r="7" fill="#2D3748"/>
+          <circle cx="122" cy="88" r="2.5" fill="#FFF"/>
+          <!-- Senyum Lebar -->
+          <path d="M84 110 Q100 126 116 110" stroke="#742A2A" stroke-width="5" stroke-linecap="round" fill="none"/>
+        </svg>
+      `,
+
+      // LEVEL 1: WARNA
+      tas_biru: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <radialGradient id="blueBag" cx="32%" cy="28%" r="75%">
+              <stop offset="0%" stop-color="#7FDBFF"/>
+              <stop offset="55%" stop-color="#2B8CBE"/>
+              <stop offset="100%" stop-color="#1A5276"/>
+            </radialGradient>
+            <radialGradient id="bluePocket" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#A6E9FF"/>
+              <stop offset="100%" stop-color="#2171B5"/>
+            </radialGradient>
+          </defs>
+          <!-- Pegangan Atas -->
+          <path d="M78 46 C78 24, 122 24, 122 46" stroke="#1A5276" stroke-width="12" stroke-linecap="round" fill="none"/>
+          <!-- Tali Bahu Samping -->
+          <rect x="34" y="75" width="22" height="82" rx="11" fill="#1F618D"/>
+          <rect x="144" y="75" width="22" height="82" rx="11" fill="#1F618D"/>
+          <!-- Badan Tas Ransel 3D -->
+          <rect x="46" y="44" width="108" height="128" rx="34" fill="url(#blueBag)"/>
+          <!-- Kilau Clay -->
+          <ellipse cx="78" cy="64" rx="22" ry="8" transform="rotate(-15 78 64)" fill="#FFFFFF" opacity="0.45"/>
+          <!-- Kantong Depan -->
+          <rect x="62" y="102" width="76" height="56" rx="20" fill="url(#bluePocket)"/>
+          <!-- Resleting & Gesper Kuning Lucu -->
+          <rect x="74" y="96" width="52" height="8" rx="4" fill="#FFE066"/>
+          <circle cx="100" cy="128" r="9" fill="#FFE066"/>
+        </svg>
+      `,
+
+      bola_merah: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <radialGradient id="redBall" cx="32%" cy="28%" r="72%">
+              <stop offset="0%" stop-color="#FF9E9E"/>
+              <stop offset="50%" stop-color="#E53E3E"/>
+              <stop offset="100%" stop-color="#822727"/>
+            </radialGradient>
+          </defs>
+          <!-- Bola 3D Empuk -->
+          <circle cx="100" cy="100" r="72" fill="url(#redBall)"/>
+          <!-- Garis Lengkung Bola -->
+          <path d="M44 64 Q100 105 156 64" stroke="#FEB2B2" stroke-width="7" fill="none" opacity="0.7"/>
+          <path d="M44 136 Q100 95 156 136" stroke="#FEB2B2" stroke-width="7" fill="none" opacity="0.7"/>
+          <line x1="100" y1="28" x2="100" y2="172" stroke="#FEB2B2" stroke-width="7" opacity="0.7"/>
+          <!-- Kilau Glossy -->
+          <ellipse cx="72" cy="60" rx="22" ry="12" transform="rotate(-28 72 60)" fill="#FFFFFF" opacity="0.55"/>
+        </svg>
+      `,
+
+      buku_kuning: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <linearGradient id="yellowCover" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFF394"/>
+              <stop offset="55%" stop-color="#F6C927"/>
+              <stop offset="100%" stop-color="#D69E2E"/>
+            </linearGradient>
+          </defs>
+          <!-- Bagian Belakang & Halaman Putih -->
+          <rect x="46" y="34" width="114" height="136" rx="18" fill="#B7791F"/>
+          <rect x="52" y="38" width="104" height="126" rx="14" fill="#FFFDF7"/>
+          <!-- Sampul Depan Kuning 3D -->
+          <rect x="42" y="30" width="106" height="132" rx="18" fill="url(#yellowCover)"/>
+          <!-- Punggung Buku -->
+          <rect x="42" y="30" width="18" height="132" rx="9" fill="#D69E2E"/>
+          <!-- Label & Bintang di Sampul -->
+          <rect x="74" y="56" width="56" height="32" rx="10" fill="#FFFDF7" opacity="0.9"/>
+          <polygon points="102,104 107,115 119,116 110,124 113,136 102,130 91,136 94,124 85,116 97,115" fill="#FF8C42"/>
+          <!-- Kilau -->
+          <ellipse cx="86" cy="42" rx="24" ry="5" fill="#FFFFFF" opacity="0.6"/>
+        </svg>
+      `,
+
+      apel_hijau: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <radialGradient id="greenApple" cx="32%" cy="28%" r="72%">
+              <stop offset="0%" stop-color="#C6F6D5"/>
+              <stop offset="50%" stop-color="#48BB78"/>
+              <stop offset="100%" stop-color="#22543D"/>
+            </radialGradient>
+            <radialGradient id="leafGrad" cx="30%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#9AE6B4"/>
+              <stop offset="100%" stop-color="#2F855A"/>
+            </radialGradient>
+          </defs>
+          <!-- Tangkai Cokelat -->
+          <path d="M100 56 Q104 32 116 26" stroke="#744210" stroke-width="10" stroke-linecap="round" fill="none"/>
+          <!-- Daun Hijau -->
+          <path d="M104 42 C122 24, 148 34, 142 52 C132 58, 114 52, 104 42 Z" fill="url(#leafGrad)"/>
+          <!-- Buah Apel Hijau 3D -->
+          <path d="M100 62 C68 46, 36 74, 42 118 C48 158, 80 174, 100 164 C120 174, 152 158, 158 118 C164 74, 132 46, 100 62 Z" fill="url(#greenApple)"/>
+          <!-- Kilau -->
+          <ellipse cx="68" cy="86" rx="14" ry="22" transform="rotate(-20 68 86)" fill="#FFFFFF" opacity="0.5"/>
+        </svg>
+      `,
+
+      // LEVEL 2: UKURAN
+      gajah_besar: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <radialGradient id="elephantClay" cx="35%" cy="28%" r="75%">
+              <stop offset="0%" stop-color="#CBD5E0"/>
+              <stop offset="60%" stop-color="#8FA3B8"/>
+              <stop offset="100%" stop-color="#4A5568"/>
+            </radialGradient>
+          </defs>
+          <!-- Badan Gajah Besar -->
+          <ellipse cx="94" cy="112" rx="64" ry="52" fill="url(#elephantClay)"/>
+          <!-- Kaki Kokoh -->
+          <rect x="48" y="136" width="24" height="44" rx="12" fill="#64748B"/>
+          <rect x="84" y="140" width="24" height="42" rx="12" fill="#718096"/>
+          <rect x="118" y="136" width="24" height="44" rx="12" fill="#64748B"/>
+          <!-- Kepala & Belalai -->
+          <circle cx="142" cy="86" r="38" fill="url(#elephantClay)"/>
+          <path d="M168 92 C188 96, 192 134, 172 138 C162 140, 160 128, 168 124" stroke="#718096" stroke-width="18" stroke-linecap="round" fill="none"/>
+          <!-- Telinga Lebar -->
+          <ellipse cx="122" cy="86" rx="22" ry="30" fill="#A0AEC0"/>
+          <ellipse cx="122" cy="86" rx="13" ry="20" fill="#FBB6CE"/>
+          <!-- Mata & Gading -->
+          <circle cx="154" cy="76" r="5" fill="#1A202C"/>
+          <circle cx="156" cy="74" r="2" fill="#FFF"/>
+          <path d="M158 104 Q174 108 178 98" stroke="#FFFDF7" stroke-width="7" stroke-linecap="round" fill="none"/>
+        </svg>
+      `,
+
+      semut_kecil: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <radialGradient id="antClay" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#FC8181"/>
+              <stop offset="60%" stop-color="#C53030"/>
+              <stop offset="100%" stop-color="#742A2A"/>
+            </radialGradient>
+          </defs>
+          <!-- Lingkaran Latar Halus agar Semut Mungil Terlihat Jelas -->
+          <circle cx="100" cy="115" r="46" fill="#EDF2F7" opacity="0.85"/>
+          <!-- Kaki Mungil -->
+          <path d="M84 128 L72 144 M100 128 L100 146 M114 126 L126 144" stroke="#742A2A" stroke-width="4" stroke-linecap="round"/>
+          <!-- Antena -->
+          <path d="M124 102 Q132 88 140 90 M120 100 Q124 86 130 85" stroke="#742A2A" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <!-- 3 Ruas Tubuh Semut Kecil -->
+          <ellipse cx="78" cy="120" rx="14" ry="11" fill="url(#antClay)"/>
+          <ellipse cx="99" cy="118" rx="10" ry="9" fill="url(#antClay)"/>
+          <circle cx="118" cy="112" r="12" fill="url(#antClay)"/>
+          <!-- Mata Lucu -->
+          <circle cx="122" cy="109" r="3" fill="#1A202C"/>
+          <circle cx="123" cy="108" r="1" fill="#FFF"/>
+        </svg>
+      `,
+
+      pensil_panjang: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <linearGradient id="pencilBody" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#FBD38D"/>
+              <stop offset="50%" stop-color="#ED8936"/>
+              <stop offset="100%" stop-color="#C05621"/>
+            </linearGradient>
+          </defs>
+          <!-- Pensil Panjang Melintang Penuh -->
+          <g transform="rotate(-32 100 100)">
+            <!-- Penghapus Ujung -->
+            <rect x="14" y="84" width="24" height="32" rx="10" fill="#F687B3"/>
+            <!-- Cincin Logam -->
+            <rect x="34" y="84" width="12" height="32" fill="#CBD5E0"/>
+            <!-- Badan Pensil Panjang -->
+            <rect x="46" y="84" width="112" height="32" fill="url(#pencilBody)"/>
+            <line x1="46" y1="94" x2="158" y2="94" stroke="#FEEBC8" stroke-width="4" opacity="0.6"/>
+            <!-- Ujung Kayu Runcing -->
+            <polygon points="158,84 190,100 158,116" fill="#F6E05E"/>
+            <polygon points="178,94 190,100 178,106" fill="#2D3748"/>
+          </g>
+        </svg>
+      `,
+
+      penghapus_pendek: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <linearGradient id="eraserWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="100%" stop-color="#CBD5E0"/>
+            </linearGradient>
+            <linearGradient id="eraserSleeve" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#63B3ED"/>
+              <stop offset="100%" stop-color="#2B6CB0"/>
+            </linearGradient>
+          </defs>
+          <!-- Penghapus Pendek & Gemuk -->
+          <g transform="rotate(-14 100 100)">
+            <rect x="58" y="72" width="84" height="56" rx="18" fill="url(#eraserWhite)"/>
+            <!-- Balutan Kertas Biru -->
+            <rect x="76" y="71" width="48" height="58" rx="8" fill="url(#eraserSleeve)"/>
+            <!-- Kilau -->
+            <ellipse cx="100" cy="82" rx="18" ry="4" fill="#FFFFFF" opacity="0.5"/>
+          </g>
+        </svg>
+      `,
+
+      // LEVEL 3: SIFAT BENDA
+      kapas_lembut: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <radialGradient id="cottonFluff" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="70%" stop-color="#EDF2F7"/>
+              <stop offset="100%" stop-color="#CBD5E0"/>
+            </radialGradient>
+          </defs>
+          <!-- Gumpalan Kapas Putih Empuk seperti Awan -->
+          <circle cx="72" cy="112" r="36" fill="url(#cottonFluff)"/>
+          <circle cx="128" cy="112" r="36" fill="url(#cottonFluff)"/>
+          <circle cx="100" cy="84" r="42" fill="url(#cottonFluff)"/>
+          <circle cx="100" cy="122" r="40" fill="url(#cottonFluff)"/>
+          <!-- Kilau Halus -->
+          <ellipse cx="90" cy="64" rx="16" ry="8" fill="#FFFFFF" opacity="0.9"/>
+        </svg>
+      `,
+
+      batu_keras: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <radialGradient id="rockClay" cx="32%" cy="28%" r="75%">
+              <stop offset="0%" stop-color="#A0AEC0"/>
+              <stop offset="55%" stop-color="#718096"/>
+              <stop offset="100%" stop-color="#2D3748"/>
+            </radialGradient>
+          </defs>
+          <!-- Batu Besar Kokoh & Keras -->
+          <path d="M40 132 L54 78 L98 54 L148 74 L164 128 L134 156 L64 156 Z" fill="url(#rockClay)" stroke="#4A5568" stroke-width="4" stroke-linejoin="round"/>
+          <!-- Tekstur Garis Batu -->
+          <path d="M68 88 L96 96 L118 76" stroke="#CBD5E0" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.55"/>
+          <path d="M84 134 L112 126 L132 138" stroke="#1A202C" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.4"/>
+        </svg>
+      `,
+
+      es_dingin: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <linearGradient id="iceCube" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#EBF8FF"/>
+              <stop offset="50%" stop-color="#90CDF4"/>
+              <stop offset="100%" stop-color="#3182CE"/>
+            </linearGradient>
+          </defs>
+          <!-- Uap Dingin & Kristal Salju -->
+          <path d="M56 44 Q48 32 58 22 M144 44 Q152 32 142 22" stroke="#63B3ED" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <text x="34" y="64" font-size="24">❄️</text>
+          <text x="144" y="68" font-size="22">❄️</text>
+          <!-- Balok Es Batu 3D -->
+          <rect x="52" y="56" width="96" height="96" rx="24" fill="url(#iceCube)" stroke="#EBF8FF" stroke-width="4"/>
+          <!-- Kilau Es -->
+          <path d="M70 76 L96 76 L70 102 Z" fill="#FFFFFF" opacity="0.75"/>
+          <ellipse cx="122" cy="128" rx="12" ry="6" transform="rotate(-35 122 128)" fill="#FFFFFF" opacity="0.5"/>
+        </svg>
+      `,
+
+      spons_lunak: `
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+          <defs>
+            <linearGradient id="spongeYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FEFCBF"/>
+              <stop offset="55%" stop-color="#F6E05E"/>
+              <stop offset="100%" stop-color="#D69E2E"/>
+            </linearGradient>
+          </defs>
+          <!-- Lapisan Sabut Hijau Bawah -->
+          <rect x="42" y="114" width="116" height="36" rx="16" fill="#38A169"/>
+          <!-- Badan Spons Kuning Empuk -->
+          <rect x="42" y="64" width="116" height="62" rx="22" fill="url(#spongeYellow)"/>
+          <!-- Pori-pori Spons -->
+          <circle cx="68" cy="86" r="6" fill="#D69E2E" opacity="0.65"/>
+          <circle cx="102" cy="82" r="8" fill="#D69E2E" opacity="0.65"/>
+          <circle cx="132" cy="90" r="5" fill="#D69E2E" opacity="0.65"/>
+          <circle cx="84" cy="106" r="6" fill="#D69E2E" opacity="0.65"/>
+          <circle cx="118" cy="106" r="7" fill="#D69E2E" opacity="0.65"/>
+        </svg>
+      `,
+
+      // MEDALI PENGHARGAAN 3D CLAY
+      medal_bronze: `
+        <svg viewBox="0 0 120 120" class="w-full h-full drop-shadow">
+          <polygon points="40,10 55,45 35,45" fill="#4299E1"/>
+          <polygon points="80,10 65,45 85,45" fill="#F56565"/>
+          <circle cx="60" cy="72" r="38" fill="#DD6B20" stroke="#FBD38D" stroke-width="5"/>
+          <polygon points="60,46 67,62 84,64 71,76 75,92 60,83 45,92 49,76 36,64 53,62" fill="#FEEBC8"/>
+        </svg>
+      `,
+      medal_silver: `
+        <svg viewBox="0 0 120 120" class="w-full h-full drop-shadow">
+          <polygon points="40,10 55,45 35,45" fill="#48BB78"/>
+          <polygon points="80,10 65,45 85,45" fill="#4299E1"/>
+          <circle cx="60" cy="72" r="38" fill="#A0AEC0" stroke="#EDF2F7" stroke-width="5"/>
+          <polygon points="60,46 67,62 84,64 71,76 75,92 60,83 45,92 49,76 36,64 53,62" fill="#FFFFFF"/>
+        </svg>
+      `,
+      medal_gold: `
+        <svg viewBox="0 0 120 120" class="w-full h-full drop-shadow-md">
+          <polygon points="40,10 55,45 35,45" fill="#F56565"/>
+          <polygon points="80,10 65,45 85,45" fill="#ECC94B"/>
+          <circle cx="60" cy="72" r="40" fill="#ECC94B" stroke="#FEFCBF" stroke-width="6"/>
+          <polygon points="60,44 68,61 86,63 73,76 76,94 60,85 44,94 47,76 34,63 52,61" fill="#FFFDF7"/>
+        </svg>
+      `
+    };
+
+    /* =========================================================================
+       2. DATA 3 LEVEL PERMAINAN (MENGENAL WARNA, UKURAN, DAN SIFAT BENDA)
+       ========================================================================= */
+    const LEVELS_DATA = [
+      {
+        level: 1,
+        title: "LEVEL 1 – MENGENAL WARNA",
+        tip: "Amati warna setiap benda, lalu seret kartu warna yang sesuai!",
+        items: [
+          {
+            id: "tas",
+            name: "Tas",
+            trait: "BIRU",
+            cardTheme: "clay-sky text-sky-950",
+            sentence: "Tasnya berwarna biru.",
+            svgKey: "tas_biru"
+          },
+          {
+            id: "bola",
+            name: "Bola",
+            trait: "MERAH",
+            cardTheme: "clay-pink text-rose-950",
+            sentence: "Bolanya berwarna merah.",
+            svgKey: "bola_merah"
+          },
+          {
+            id: "buku",
+            name: "Buku",
+            trait: "KUNING",
+            cardTheme: "clay-yellow text-amber-950",
+            sentence: "Bukunya berwarna kuning.",
+            svgKey: "buku_kuning"
+          },
+          {
+            id: "apel",
+            name: "Apel",
+            trait: "HIJAU",
+            cardTheme: "clay-green text-emerald-950",
+            sentence: "Apelnya berwarna hijau.",
+            svgKey: "apel_hijau"
+          }
+        ]
+      },
+      {
+        level: 2,
+        title: "LEVEL 2 – MENGENAL UKURAN",
+        tip: "Bandingkan ukuran benda! Mana yang besar, kecil, panjang, dan pendek?",
+        items: [
+          {
+            id: "gajah",
+            name: "Gajah",
+            trait: "BESAR",
+            cardTheme: "clay-orange text-orange-950",
+            sentence: "Gajah berukuran besar.",
+            svgKey: "gajah_besar"
+          },
+          {
+            id: "semut",
+            name: "Semut",
+            trait: "KECIL",
+            cardTheme: "clay-pink text-rose-950",
+            sentence: "Semut berukuran kecil.",
+            svgKey: "semut_kecil"
+          },
+          {
+            id: "pensil",
+            name: "Pensil",
+            trait: "PANJANG",
+            cardTheme: "clay-yellow text-amber-950",
+            sentence: "Pensil berukuran panjang.",
+            svgKey: "pensil_panjang"
+          },
+          {
+            id: "penghapus",
+            name: "Penghapus",
+            trait: "PENDEK",
+            cardTheme: "clay-sky text-sky-950",
+            sentence: "Penghapus berukuran pendek.",
+            svgKey: "penghapus_pendek"
+          }
+        ]
+      },
+      {
+        level: 3,
+        title: "LEVEL 3 – MENGENAL SIFAT BENDA",
+        tip: "Bayangkan jika kita menyentuhnya! Bagaimana sifat setiap benda ini?",
+        items: [
+          {
+            id: "kapas",
+            name: "Kapas",
+            trait: "LEMBUT",
+            cardTheme: "clay-pink text-rose-950",
+            sentence: "Kapas terasa lembut.",
+            svgKey: "kapas_lembut"
+          },
+          {
+            id: "batu",
+            name: "Batu",
+            trait: "KERAS",
+            cardTheme: "clay-orange text-orange-950",
+            sentence: "Batu terasa keras.",
+            svgKey: "batu_keras"
+          },
+          {
+            id: "es_batu",
+            name: "Es Batu",
+            trait: "DINGIN",
+            cardTheme: "clay-sky text-sky-950",
+            sentence: "Es batu terasa dingin.",
+            svgKey: "es_dingin"
+          },
+          {
+            id: "spons",
+            name: "Spons",
+            trait: "LUNAK",
+            cardTheme: "clay-yellow text-amber-950",
+            sentence: "Spons terasa lunak.",
+            svgKey: "spons_lunak"
+          }
+        ]
+      }
+    ];
+
+    /* =========================================================================
+       3. STATE PERMAINAN & AUDIO SINTESIS (WEB AUDIO API + WEB SPEECH API)
+       ========================================================================= */
+    let currentLevelIdx = 0;
+    let score = 0;
+    let solvedCountInLevel = 0;
+    let soundEnabled = true;
+    let activeSentence = "";
+    let selectedTapCard = null;
+    let audioCtx = null;
+    let recognition = null;
+    let isRecording = false;
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) audioCtx = new AudioContext();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // Efek suara ceria (Web Audio API - tanpa file eksternal)
+    function playSound(type) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+
+        if (type === 'click') {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(520, now);
+          osc.frequency.exponentialRampToValueAtTime(760, now + 0.09);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.1);
+        } else if (type === 'correct') {
+          // Melodi menang + simulasi tepuk tangan ceria
+          const notes = [523.25, 659.25, 783.99, 1046.50];
+          notes.forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + i * 0.09);
+            gain.gain.setValueAtTime(0.24, now + i * 0.09);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.09 + 0.35);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + i * 0.09);
+            osc.stop(now + i * 0.09 + 0.36);
+          });
+
+          // Suara tepuk tangan (filtered noise bursts)
+          for (let c = 0; c < 7; c++) {
+            const clapTime = now + 0.15 + c * 0.12;
+            const bufferSize = audioCtx.sampleRate * 0.09;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let j = 0; j < bufferSize; j++) {
+              data[j] = (Math.random() * 2 - 1) * Math.exp(-j / (bufferSize * 0.3));
+            }
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.value = 1200 + (c % 2) * 300;
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.22, clapTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, clapTime + 0.09);
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            noise.start(clapTime);
+          }
+        } else if (type === 'wrong') {
+          // Nada lembut menyemangati (bukan bunyi keras)
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(340, now);
+          osc.frequency.linearRampToValueAtTime(280, now + 0.25);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.28);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.28);
+        } else if (type === 'fanfare') {
+          const fanfareNotes = [523.25, 659.25, 783.99, 1046.50, 783.99, 1046.50];
+          fanfareNotes.forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + i * 0.13);
+            gain.gain.setValueAtTime(0.24, now + i * 0.13);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.13 + 0.4);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + i * 0.13);
+            osc.stop(now + i * 0.13 + 0.42);
+          });
+        }
+      } catch (e) {
+        console.warn("Audio fallback:", e);
+      }
+    }
+
+    // Text-to-Speech Bahasa Indonesia
+    function speakText(text) {
+      if (!soundEnabled || !('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'id-ID';
+        utterance.rate = 0.92;
+        utterance.pitch = 1.12;
+        window.speechSynthesis.speak(utterance);
+      } catch (e) {
+        console.warn("Speech synthesis unavailable:", e);
+      }
+    }
+
+    function speakInstruction() {
+      playSound('click');
+      speakText("Anak-anak, ayo amati gambar benda! Seret kartu ciri-ciri benda ke gambar yang tepat. Setelah itu, ceritakan ciri benda tersebut dengan kalimat sederhana.");
+    }
+
+    function speakExampleSentence() {
+      playSound('click');
+      speakText(activeSentence);
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('btn-sound').textContent = soundEnabled ? '🔊' : '🔇';
+      if (soundEnabled) playSound('click');
+    }
+
+    /* =========================================================================
+       4. NAVIGASI LAYAR & RENDER LEVEL
+       ========================================================================= */
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function startGame() {
+      playSound('click');
+      score = 0;
+      currentLevelIdx = 0;
+      updateScoreUI();
+      document.getElementById('screen-start').classList.add('hidden');
+      document.getElementById('screen-end').classList.add('hidden');
+      document.getElementById('screen-game').classList.remove('hidden');
+      loadLevel(currentLevelIdx);
+    }
+
+    function restartGame() {
+      startGame();
+    }
+
+    function confirmGoHome() {
+      playSound('click');
+      document.getElementById('confirm-home-modal').classList.remove('hidden');
+    }
+
+    function closeConfirmHome() {
+      playSound('click');
+      document.getElementById('confirm-home-modal').classList.add('hidden');
+    }
+
+    function goHomeConfirmed() {
+      playSound('click');
+      document.getElementById('confirm-home-modal').classList.add('hidden');
+      document.getElementById('screen-game').classList.add('hidden');
+      document.getElementById('screen-end').classList.add('hidden');
+      document.getElementById('screen-start').classList.remove('hidden');
+    }
+
+    function updateScoreUI() {
+      document.getElementById('score-display').textContent = score;
+    }
+
+    function loadLevel(idx) {
+      const levelData = LEVELS_DATA[idx];
+      solvedCountInLevel = 0;
+      selectedTapCard = null;
+
+      document.getElementById('level-badge').textContent = `LEVEL ${levelData.level} DARI ${LEVELS_DATA.length}`;
+      document.getElementById('level-title').textContent = levelData.title;
+      document.getElementById('mascot-tip').textContent = levelData.tip;
+      document.getElementById('progress-text').textContent = `Terpasang: 0 / ${levelData.items.length}`;
+      document.getElementById('next-level-bar').classList.add('hidden');
+
+      // Render 4 Kotak Gambar Benda (Urutan bisa diacak agar lebih menantang saat main ulang)
+      const objectsGrid = document.getElementById('objects-grid');
+      objectsGrid.innerHTML = '';
+      const displayItems = shuffleArray(levelData.items);
+
+      displayItems.forEach(item => {
+        const cardEl = document.createElement('div');
+        cardEl.className = 'drop-zone clay-panel p-3 sm:p-5 flex flex-col items-center justify-between border-4 border-dashed border-sky-300 relative min-h-[220px] sm:min-h-[265px]';
+        cardEl.dataset.targetTrait = item.trait;
+        cardEl.dataset.itemId = item.id;
+
+        cardEl.innerHTML = `
+          <div class="w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center pointer-events-none">
+            ${SVG_ASSETS[item.svgKey]}
+          </div>
+          <div class="text-xl sm:text-2xl font-extrabold text-slate-800 my-1 pointer-events-none">
+            ${item.name}
+          </div>
+          <div class="slot-placeholder w-full py-2.5 sm:py-3 rounded-2xl bg-sky-100/80 border-2 border-dashed border-sky-400 text-sky-700 font-bold text-base sm:text-lg text-center pointer-events-none">
+            Taruh Kartu di Sini
+          </div>
+        `;
+
+        // Mendukung opsi ketuk-target setelah memilih kartu (aksesibilitas layar sentuh)
+        cardEl.addEventListener('click', () => handleDropZoneTap(cardEl, item));
+        objectsGrid.appendChild(cardEl);
+      });
+
+      // Render 4 Kartu Ciri Benda (Diacak)
+      const cardsRack = document.getElementById('cards-rack');
+      cardsRack.innerHTML = '';
+      const shuffledCards = shuffleArray(levelData.items);
+
+      shuffledCards.forEach(item => {
+        const traitCard = document.createElement('div');
+        traitCard.className = `trait-card clay-btn ${item.cardTheme} py-4 sm:py-5 px-4 text-2xl sm:text-3xl font-extrabold tracking-wide shadow-md select-none`;
+        traitCard.textContent = item.trait;
+        traitCard.dataset.trait = item.trait;
+        traitCard.dataset.itemId = item.id;
+
+        setupPointerDrag(traitCard);
+        cardsRack.appendChild(traitCard);
+      });
+    }
+
+    /* =========================================================================
+       5. SISTEM DRAG & DROP MULTI-TOUCH / PID & MOUSE (POINTER EVENTS)
+       ========================================================================= */
+    function setupPointerDrag(cardEl) {
+      let isDragging = false;
+      let hasMoved = false;
+      let startX = 0;
+      let startY = 0;
+      let origRect = null;
+      let placeholder = null;
+
+      cardEl.addEventListener('pointerdown', (e) => {
+        if (cardEl.dataset.locked === 'true') return;
+        e.preventDefault();
+        initAudio();
+
+        isDragging = true;
+        hasMoved = false;
+        startX = e.clientX;
+        startY = e.clientY;
+        origRect = cardEl.getBoundingClientRect();
+
+        // Buat bayangan tempat kosong di rak kartu agar layout tidak melompat
+        placeholder = document.createElement('div');
+        placeholder.className = 'rounded-3xl border-2 border-dashed border-slate-300 bg-slate-100/60';
+        placeholder.style.width = `${origRect.width}px`;
+        placeholder.style.height = `${origRect.height}px`;
+
+        cardEl.setPointerCapture(e.pointerId);
+      });
+
+      cardEl.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+
+        if (!hasMoved && Math.hypot(dx, dy) > 8) {
+          hasMoved = true;
+          clearTapSelection();
+          cardEl.parentNode.insertBefore(placeholder, cardEl);
+          cardEl.classList.add('dragging');
+          cardEl.style.position = 'fixed';
+          cardEl.style.left = `${origRect.left}px`;
+          cardEl.style.top = `${origRect.top}px`;
+          cardEl.style.width = `${origRect.width}px`;
+          cardEl.style.height = `${origRect.height}px`;
+          cardEl.style.margin = '0';
+        }
+
+        if (hasMoved) {
+          cardEl.style.left = `${origRect.left + dx}px`;
+          cardEl.style.top = `${origRect.top + dy}px`;
+          highlightHoveredDropZone(e.clientX, e.clientY);
+        }
+      });
+
+      const finishDrag = (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        clearAllDropHighlights();
+
+        if (!hasMoved) {
+          // Jika hanya diketuk (tap), aktifkan mode pilih-ketuk
+          handleCardTapSelect(cardEl);
+          return;
+        }
+
+        cardEl.classList.remove('dragging');
+        const matchedZone = findDropZoneAt(e.clientX, e.clientY);
+
+        if (matchedZone && matchedZone.dataset.solved !== 'true') {
+          const itemObj = LEVELS_DATA[currentLevelIdx].items.find(
+            it => it.id === matchedZone.dataset.itemId
+          );
+          evaluateMatch(cardEl, matchedZone, itemObj, placeholder);
+        } else {
+          // Kembalikan kartu ke rak dengan mulus
+          restoreCardToRack(cardEl, placeholder);
+        }
+      };
+
+      cardEl.addEventListener('pointerup', finishDrag);
+      cardEl.addEventListener('pointercancel', finishDrag);
+    }
+
+    function restoreCardToRack(cardEl, placeholder) {
+      cardEl.style.position = '';
+      cardEl.style.left = '';
+      cardEl.style.top = '';
+      cardEl.style.width = '';
+      cardEl.style.height = '';
+      cardEl.style.margin = '';
+      if (placeholder && placeholder.parentNode) {
+        placeholder.parentNode.replaceChild(cardEl, placeholder);
+      }
+    }
+
+    function findDropZoneAt(clientX, clientY) {
+      const zones = document.querySelectorAll('.drop-zone');
+      for (const zone of zones) {
+        const rect = zone.getBoundingClientRect();
+        if (
+          clientX >= rect.left &&
+          clientX <= rect.right &&
+          clientY >= rect.top &&
+          clientY <= rect.bottom
+        ) {
+          return zone;
+        }
+      }
+      return null;
+    }
+
+    function highlightHoveredDropZone(clientX, clientY) {
+      const zones = document.querySelectorAll('.drop-zone');
+      zones.forEach(z => z.classList.remove('highlight'));
+      const target = findDropZoneAt(clientX, clientY);
+      if (target && target.dataset.solved !== 'true') {
+        target.classList.add('highlight');
+      }
+    }
+
+    function clearAllDropHighlights() {
+      document.querySelectorAll('.drop-zone').forEach(z => z.classList.remove('highlight'));
+    }
+
+    /* Mode Alternatif Ketuk Kartu -> Ketuk Gambar (Sangat membantu di PID besar) */
+    function handleCardTapSelect(cardEl) {
+      if (cardEl.dataset.locked === 'true') return;
+      playSound('click');
+      if (selectedTapCard === cardEl) {
+        clearTapSelection();
+        return;
+      }
+      clearTapSelection();
+      selectedTapCard = cardEl;
+      cardEl.classList.add('selected-tap');
+    }
+
+    function clearTapSelection() {
+      if (selectedTapCard) {
+        selectedTapCard.classList.remove('selected-tap');
+        selectedTapCard = null;
+      }
+    }
+
+    function handleDropZoneTap(zoneEl, itemObj) {
+      if (!selectedTapCard || zoneEl.dataset.solved === 'true') return;
+      const chosenCard = selectedTapCard;
+      clearTapSelection();
+      evaluateMatch(chosenCard, zoneEl, itemObj, null);
+    }
+
+    /* =========================================================================
+       6. PENGECEKAN JAWABAN, ANIMASI BINTANG & TANTANGAN BERBICARA
+       ========================================================================= */
+    function evaluateMatch(cardEl, zoneEl, itemObj, placeholder) {
+      const cardTrait = cardEl.dataset.trait;
+      const targetTrait = zoneEl.dataset.targetTrait;
+
+      if (cardTrait === targetTrait) {
+        // JAWABAN BENAR!
+        playSound('correct');
+        score += 10;
+        solvedCountInLevel += 1;
+        updateScoreUI();
+
+        zoneEl.dataset.solved = 'true';
+        zoneEl.classList.add('solved');
+
+        // Hapus kartu dari rak dan tempelkan lencana jawaban di kotak benda
+        if (placeholder && placeholder.parentNode) {
+          placeholder.remove();
+        } else if (cardEl.parentNode) {
+          cardEl.remove();
+        }
+
+        const slot = zoneEl.querySelector('.slot-placeholder');
+        slot.className = `w-full py-2.5 sm:py-3 rounded-2xl ${itemObj.cardTheme} font-extrabold text-xl sm:text-2xl text-center shadow pointer-events-none animate-pop`;
+        slot.textContent = `✅ ${itemObj.trait}`;
+
+        document.getElementById('progress-text').textContent =
+          `Terpasang: ${solvedCountInLevel} / ${LEVELS_DATA[currentLevelIdx].items.length}`;
+
+        // Ledakan bintang meriah di lokasi benda
+        const rect = zoneEl.getBoundingClientRect();
+        spawnStarBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+        // Buka Modal Tantangan Berbicara
+        setTimeout(() => {
+          openSpeakingModal(itemObj);
+        }, 480);
+
+      } else {
+        // JAWABAN SALAH (Ramah, jangan beritahu jawaban)
+        playSound('wrong');
+        if (placeholder) {
+          restoreCardToRack(cardEl, placeholder);
+        }
+        cardEl.classList.remove('animate-wobble');
+        void cardEl.offsetWidth; // trigger reflow
+        cardEl.classList.add('animate-wobble');
+
+        zoneEl.classList.remove('animate-wobble');
+        void zoneEl.offsetWidth;
+        zoneEl.classList.add('animate-wobble');
+
+        showGentleErrorToast();
+      }
+    }
+
+    function showGentleErrorToast() {
+      const toast = document.getElementById('gentle-toast');
+      toast.classList.remove('hidden');
+      speakText("Ayo coba lagi, kamu pasti bisa!");
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 2400);
+    }
+
+    function spawnStarBurst(originX, originY) {
+      const icons = ['⭐', '🌟', '✨', '🎉', '💫'];
+      for (let i = 0; i < 14; i++) {
+        const el = document.createElement('div');
+        el.className = 'star-particle';
+        el.textContent = icons[i % icons.length];
+        el.style.left = `${originX}px`;
+        el.style.top = `${originY}px`;
+        document.body.appendChild(el);
+
+        const angle = (Math.PI * 2 * i) / 14 + (Math.random() * 0.3);
+        const dist = 75 + Math.random() * 110;
+        const tx = Math.cos(angle) * dist;
+        const ty = Math.sin(angle) * dist - 30;
+
+        requestAnimationFrame(() => {
+          el.style.transform = `translate(${tx}px, ${ty}px) scale(1.25) rotate(${Math.random() * 180}deg)`;
+          el.style.opacity = '0';
+        });
+
+        setTimeout(() => el.remove(), 1000);
+      }
+    }
+
+    /* =========================================================================
+       7. MODAL TANTANGAN BERBICARA & PENGENALAN SUARA (MIKROFON)
+       ========================================================================= */
+    function openSpeakingModal(itemObj) {
+      activeSentence = itemObj.sentence;
+      document.getElementById('modal-object-preview').innerHTML = SVG_ASSETS[itemObj.svgKey];
+      document.getElementById('modal-example-sentence').textContent = `"${itemObj.sentence}"`;
+      document.getElementById('speech-result-box').classList.add('hidden');
+      document.getElementById('speech-result-box').textContent = '';
+      document.getElementById('speech-status').textContent =
+        'Tekan tombol mikrofon lalu ucapkan kalimatnya dengan lantang!';
+
+      resetMicButtonUI();
+      document.getElementById('speaking-modal').classList.remove('hidden');
+      speakText(`Hebat! Jawabanmu benar! Ayo ceritakan ciri benda ini! ${itemObj.sentence}`);
+    }
+
+    function closeSpeakingModal() {
+      playSound('click');
+      stopSpeechRecognition();
+      document.getElementById('speaking-modal').classList.add('hidden');
+
+      // Cek apakah semua 4 benda di level ini sudah selesai
+      if (solvedCountInLevel >= LEVELS_DATA[currentLevelIdx].items.length) {
+        const nextBar = document.getElementById('next-level-bar');
+        nextBar.classList.remove('hidden');
+        const btnNext = document.getElementById('btn-next-level');
+        btnNext.textContent = currentLevelIdx < LEVELS_DATA.length - 1
+          ? 'LANJUT KE LEVEL BERIKUTNYA ➡️'
+          : 'LIHAT PENGHARGAAN 🏆';
+      }
+    }
+
+    function resetMicButtonUI() {
+      isRecording = false;
+      const btn = document.getElementById('btn-mic');
+      btn.classList.remove('mic-recording');
+      btn.innerHTML = '🎤 Tekan & Ucapkan Kalimat';
+    }
+
+    function toggleSpeechRecognition() {
+      playSound('click');
+      if (isRecording) {
+        stopSpeechRecognition();
+        return;
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        document.getElementById('speech-status').textContent =
+          'Perangkat ini tidak mendukung mikrofon otomatis. Ayo ucapkan kalimatnya bersama Bapak/Ibu Guru ya!';
+        return;
+      }
+
+      try {
+        window.speechSynthesis.cancel();
+        recognition = new SpeechRecognition();
+        recognition.lang = 'id-ID';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = () => {
+          isRecording = true;
+          const btn = document.getElementById('btn-mic');
+          btn.classList.add('mic-recording');
+          btn.innerHTML = '🔴 Mendengarkan Suaramu...';
+          document.getElementById('speech-status').textContent =
+            'Silakan berbicara sekarang...';
+        };
+
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          const resBox = document.getElementById('speech-result-box');
+          resBox.textContent = `👏 Hebat suaramu: "${transcript}"`;
+          resBox.classList.remove('hidden');
+          document.getElementById('speech-status').textContent =
+            'Bagus sekali! Kamu sudah berani bercerita!';
+          playSound('correct');
+        };
+
+        recognition.onerror = () => {
+          document.getElementById('speech-status').textContent =
+            'Mikrofon belum menangkap suara. Kamu tetap bisa mengucapkan kalimatnya secara langsung ya!';
+          resetMicButtonUI();
+        };
+
+        recognition.onend = () => {
+          resetMicButtonUI();
+        };
+
+        recognition.start();
+      } catch (err) {
+        document.getElementById('speech-status').textContent =
+          'Ayo ucapkan kalimatnya dengan suara lantang di depan kelas!';
+        resetMicButtonUI();
+      }
+    }
+
+    function stopSpeechRecognition() {
+      if (recognition && isRecording) {
+        try {
+          recognition.stop();
+        } catch (e) {}
+      }
+      resetMicButtonUI();
+    }
+
+    /* =========================================================================
+       8. PERPINDAHAN LEVEL & HALAMAN PENUTUP (MEDALI DIGITAL)
+       ========================================================================= */
+    function nextLevel() {
+      playSound('click');
+      if (currentLevelIdx < LEVELS_DATA.length - 1) {
+        currentLevelIdx += 1;
+        loadLevel(currentLevelIdx);
+      } else {
+        showEndingScreen();
+      }
+    }
+
+    function showEndingScreen() {
+      document.getElementById('screen-game').classList.add('hidden');
+      document.getElementById('screen-end').classList.remove('hidden');
+      document.getElementById('final-score').textContent = score;
+
+      playSound('fanfare');
+      spawnStarBurst(window.innerWidth * 0.3, window.innerHeight * 0.35);
+      spawnStarBurst(window.innerWidth * 0.7, window.innerHeight * 0.35);
+      speakText("Wow! Kamu hebat! Kini aku bisa mengenal warna, ukuran, dan sifat benda.");
+    }
+
+    /* =========================================================================
+       9. INISIALISASI SAAT HALAMAN DIMUAT
+       ========================================================================= */
+    window.onload = function () {
+      document.getElementById('start-mascot-container').innerHTML = SVG_ASSETS.mascot;
+      document.getElementById('header-mascot-mini').innerHTML = SVG_ASSETS.mascot;
+      document.getElementById('end-mascot-container').innerHTML = SVG_ASSETS.mascot;
+
+      document.getElementById('svg-medal-bronze').innerHTML = SVG_ASSETS.medal_bronze;
+      document.getElementById('svg-medal-silver').innerHTML = SVG_ASSETS.medal_silver;
+      document.getElementById('svg-medal-gold').innerHTML = SVG_ASSETS.medal_gold;
+    };
+  </script>
+</body>
+</html>
